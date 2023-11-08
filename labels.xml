@@ -1,0 +1,11 @@
+<?<xml version="1.0" encoding='utf-8'>
+<data>
+    <lbl id='flow'>Traffic Flow: </lbl>
+    <lbl id='density'>Traffic Density: </lbl>
+    <lbl id='speed'>Traffic Speed: </lbl>
+    <lbl id='headway'>Traffic Headway: </lbl>
+    <!-- <var id=''>Avg Traffic Speed: </var> -->
+</data>
+
+</xml>
+
