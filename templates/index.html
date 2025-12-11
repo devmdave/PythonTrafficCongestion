@@ -3,153 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Traffic Flow Congestion Analysis</title>
-    <meta name="description" content="Real-time vehicle detection and traffic parameter analysis using YOLOv8 and computer vision">
+    <title>Traffic Flow Analysis</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-content">
-                <div class="logo-section">
-                    <div class="logo-icon">🚦</div>
-                    <h1 class="title">Traffic Flow Analysis</h1>
-                </div>
-                <div class="status-badge">
-                    <span class="status-dot"></span>
-                    <span class="status-text">Live</span>
-                </div>
+    <div class="wrapper">
+        <!-- Top Bar -->
+        <header class="top-bar">
+            <div class="left-section">
+                <h1>TMS</h1>
             </div>
         </header>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Video Section -->
-            <section class="video-section">
-                <div class="card video-card">
-                    <div class="card-header">
-                        <h2 class="card-title">Live Detection Feed</h2>
-                        <div class="controls">
-                            <button class="btn btn-secondary" id="restartBtn">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M23 4v6h-6M1 20v-6h6"/>
-                                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
-                                </svg>
-                                Restart
-                            </button>
-                        </div>
-                    </div>
-                    <div class="video-container">
-                        <img id="videoFeed" src="{{ url_for('video_feed') }}" alt="Traffic Video Feed">
-                    </div>
+        <!-- Main Area -->
+        <div class="main-grid">
+            <!-- Video Feed -->
+            <div class="video-section">
+                <div class="section-top">
+                    <h2>Detection Feed</h2>
+                    <button class="restart-btn" id="restartBtn">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M23 4v6h-6M1 20v-6h6"/>
+                            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                        </svg>
+                        Restart
+                    </button>
                 </div>
-            </section>
+                <div class="video-box">
+                    <img id="videoFeed" src="{{ url_for('video_feed') }}" alt="Traffic Feed">
+                </div>
+            </div>
 
-            <!-- Metrics Grid -->
-            <section class="metrics-section">
-                <!-- Primary Metrics -->
-                <div class="metrics-grid">
-                    <div class="metric-card primary">
-                        <div class="metric-icon">🚗</div>
-                        <div class="metric-content">
-                            <div class="metric-label">Vehicles Detected</div>
-                            <div class="metric-value" id="vehicles">0</div>
+            <!-- Right Panel -->
+            <div class="right-panel">
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <span class="stat-icon">🚗</span>
+                        <div class="stat-info">
+                            <p class="stat-label">Vehicles</p>
+                            <p class="stat-value" id="vehicles">0</p>
                         </div>
                     </div>
-
-                    <div class="metric-card primary">
-                        <div class="metric-icon">⚡</div>
-                        <div class="metric-content">
-                            <div class="metric-label">Average Speed</div>
-                            <div class="metric-value" id="speed">0 <span class="unit">km/h</span></div>
+                    <div class="stat-box">
+                        <span class="stat-icon">⚡</span>
+                        <div class="stat-info">
+                            <p class="stat-label">Speed</p>
+                            <p class="stat-value" id="speed">0 <small>km/h</small></p>
                         </div>
                     </div>
-
-                    <div class="metric-card primary">
-                        <div class="metric-icon">📊</div>
-                        <div class="metric-content">
-                            <div class="metric-label">Model Accuracy</div>
-                            <div class="metric-value" id="accuracy">0.0</div>
+                    <div class="stat-box">
+                        <span class="stat-icon">📊</span>
+                        <div class="stat-info">
+                            <p class="stat-label">Accuracy</p>
+                            <p class="stat-value" id="accuracy">0.0</p>
                         </div>
                     </div>
-
-                    <div class="metric-card primary">
-                        <div class="metric-icon">🎯</div>
-                        <div class="metric-content">
-                            <div class="metric-label">FPS</div>
-                            <div class="metric-value" id="fps">0</div>
+                    <div class="stat-box">
+                        <span class="stat-icon">🎯</span>
+                        <div class="stat-info">
+                            <p class="stat-label">FPS</p>
+                            <p class="stat-value" id="fps">0</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Traffic Parameters -->
-                <div class="card parameters-card">
-                    <div class="card-header">
-                        <h2 class="card-title">Traffic Parameters</h2>
-                    </div>
-                    <div class="parameters-grid">
-                        <div class="parameter-item">
-                            <span class="parameter-label">Density</span>
-                            <span class="parameter-value" id="density">0.000</span>
+                <!-- Parameters -->
+                <div class="params-section">
+                    <h3>Traffic Params</h3>
+                    <div class="params-list">
+                        <div class="param-row">
+                            <span>Density</span>
+                            <span id="density">0.000</span>
                         </div>
-                        <div class="parameter-item">
-                            <span class="parameter-label">Flow Rate</span>
-                            <span class="parameter-value" id="flow">0.000</span>
+                        <div class="param-row">
+                            <span>Flow Rate</span>
+                            <span id="flow">0.000</span>
                         </div>
-                        <div class="parameter-item">
-                            <span class="parameter-label">Headway</span>
-                            <span class="parameter-value" id="headway">0.000</span>
+                        <div class="param-row">
+                            <span>Headway</span>
+                            <span id="headway">0.000</span>
                         </div>
-                        <div class="parameter-item">
-                            <span class="parameter-label">Vehicles Up</span>
-                            <span class="parameter-value" id="vehiclesUp">0</span>
+                        <div class="param-row">
+                            <span>Up Count</span>
+                            <span id="vehiclesUp">0</span>
                         </div>
-                        <div class="parameter-item">
-                            <span class="parameter-label">Vehicles Down</span>
-                            <span class="parameter-value" id="vehiclesDown">0</span>
-                        </div>
-                        <div class="parameter-item">
-                            <span class="parameter-label">Model</span>
-                            <span class="parameter-value">YOLOv8n</span>
+                        <div class="param-row">
+                            <span>Down Count</span>
+                            <span id="vehiclesDown">0</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- System Info -->
-                <div class="card info-card">
-                    <div class="card-header">
-                        <h2 class="card-title">System Information</h2>
-                    </div>
-                    <div class="info-content">
-                        <div class="info-item">
-                            <span class="info-label">Detection Model</span>
-                            <span class="info-value">YOLOv8 Nano</span>
+                <div class="info-section">
+                    <h3>System Info</h3>
+                    <div class="info-list">
+                        <div class="info-row">
+                            <span>Model</span>
+                            <span>YOLOv8n</span>
                         </div>
-                        <div class="info-item">
-                            <span class="info-label">Framework</span>
-                            <span class="info-value">Ultralytics</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Backend</span>
-                            <span class="info-value">Flask + OpenCV</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Classes Detected</span>
-                            <span class="info-value">Car, Truck, Bus, Motorcycle</span>
+                        <div class="info-row">
+                            <span>Classes</span>
+                            <span>Car, Truck, Bus</span>
                         </div>
                     </div>
                 </div>
-            </section>
-        </main>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <p>Traffic Flow Congestion Analysis System • Built with YOLOv8 & Flask</p>
-        </footer>
+            </div>
+        </div>
     </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
